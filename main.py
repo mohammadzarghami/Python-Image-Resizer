@@ -9,20 +9,20 @@ from PyQt5.QtCore import Qt, QPropertyAnimation
 from PyQt5.QtGui import QIcon, QFont
 from PIL import Image
 
-# افزایش حد مجاز اندازه تصویر
+# Increase maximum image pixel limit
 Image.MAX_IMAGE_PIXELS = None
 
 class ImageResizer(QWidget):
     def __init__(self):
         super().__init__()
 
-        # بارگذاری ترجمه‌ها
+        # Load translations
         self.load_translations()
 
         self.setWindowTitle(self.translations["title"])
         self.setGeometry(100, 100, 500, 600)
 
-        # تنظیمات ظاهر مدرن
+        # Set modern appearance
         self.setStyleSheet("""
             QWidget {
                 background-color: #2E3440;
@@ -55,25 +55,25 @@ class ImageResizer(QWidget):
             }
         """)
 
-        # لایه اصلی عمودی
+        # Main vertical layout
         self.layout = QVBoxLayout()
 
-        # ایجاد فریم شیشه‌ای شفاف
+        # Create a translucent window frame
         self.setWindowOpacity(0.95)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
-        # انیمیشن ورود (fade-in)
+        # Fade-in animation
         self.fade_in_animation = QPropertyAnimation(self, b"windowOpacity")
         self.fade_in_animation.setDuration(1000)
         self.fade_in_animation.setStartValue(0)
         self.fade_in_animation.setEndValue(0.95)
         self.fade_in_animation.start()
 
-        # برچسب برای نمایش حجم فایل
+        # Label to display file size
         self.file_size_label = QLabel(self.translations["file_size"], self)
         self.layout.addWidget(self.file_size_label)
 
-        # ایجاد ScrollArea
+        # Create ScrollArea
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area_content = QWidget()
@@ -82,12 +82,12 @@ class ImageResizer(QWidget):
         self.scroll_area.setWidget(self.scroll_area_content)
         self.layout.addWidget(self.scroll_area)
 
-        # دکمه انتخاب تصویر
+        # Select image button
         self.select_button = QPushButton(self.translations["select_image"], self)
         self.select_button.clicked.connect(self.select_image)
         self.layout.addWidget(self.select_button)
 
-        # ابعاد استاندارد
+        # Standard dimensions
         self.standard_dimensions = {
             "640x480": (640, 480),
             "800x600": (800, 600),
@@ -98,7 +98,7 @@ class ImageResizer(QWidget):
             "3840x2160": (3840, 2160)
         }
 
-        # انتخاب ابعاد استاندارد
+        # Standard dimension selection
         self.standard_combo = QComboBox(self)
         self.standard_combo.addItem(self.translations["select_standard_dimension"])
         for key in self.standard_dimensions.keys():
@@ -107,7 +107,7 @@ class ImageResizer(QWidget):
         self.scroll_area_layout.addWidget(QLabel(self.translations["standard_dimension"], self))
         self.scroll_area_layout.addWidget(self.standard_combo)
 
-        # ابعاد دلخواه
+        # Custom dimensions
         self.custom_width = QLineEdit(self)
         self.custom_height = QLineEdit(self)
         self.scroll_area_layout.addWidget(QLabel(self.translations["width"], self))
@@ -115,30 +115,30 @@ class ImageResizer(QWidget):
         self.scroll_area_layout.addWidget(QLabel(self.translations["height"], self))
         self.scroll_area_layout.addWidget(self.custom_height)
 
-        # ابعاد پیشنهادی
+        # Suggested dimensions
         self.suggested_combo = QComboBox(self)
         self.suggested_combo.addItem(self.translations["select_suggested_dimension"])
         self.scroll_area_layout.addWidget(QLabel(self.translations["suggested_dimension"], self))
         self.scroll_area_layout.addWidget(self.suggested_combo)
         self.suggested_combo.currentIndexChanged.connect(self.update_image_info)
 
-        # دکمه تغییر ابعاد
+        # Resize button
         self.resize_button = QPushButton(self.translations["resize"], self)
         self.resize_button.clicked.connect(self.resize_image)
         self.layout.addWidget(self.resize_button)
 
-        # برچسب برای نمایش حجم جدید و درصد کاهش
+        # Label to display new size and reduction percentage
         self.size_info_label = QLabel("", self)
         self.layout.addWidget(self.size_info_label)
 
-        # منوی انتخاب زبان
+        # Language selection menu
         self.language_combo = QComboBox(self)
         self.language_combo.addItem("English")
         self.language_combo.addItem("فارسی")
         self.language_combo.currentIndexChanged.connect(self.change_language)
         self.layout.addWidget(self.language_combo)
 
-        # اضافه کردن لایه به پنجره اصلی
+        # Add layout to the main window
         self.setLayout(self.layout)
 
         self.image_path = None
@@ -152,7 +152,7 @@ class ImageResizer(QWidget):
             self.update_suggested_dimensions()
 
     def format_size(self, size):
-        """فرمت سایز به KB, MB, GB."""
+        """Format size to KB, MB, GB."""
         for unit in ['B', 'KB', 'MB', 'GB']:
             if size < 1024.0:
                 return f"{size:.2f} {unit}"
@@ -160,7 +160,7 @@ class ImageResizer(QWidget):
         return f"{size:.2f} TB"
 
     def update_suggested_dimensions(self):
-        """به‌روزرسانی ابعاد پیشنهادی بر اساس ابعاد اصلی."""
+        """Update suggested dimensions based on original dimensions."""
         img = Image.open(self.image_path)
         original_width, original_height = img.size
         self.suggested_combo.clear()
@@ -171,12 +171,12 @@ class ImageResizer(QWidget):
             self.suggested_combo.addItem(f"{width}x{height}")
 
     def update_image_info(self):
-        """به‌روزرسانی اطلاعات تصویر بر اساس ابعاد انتخاب شده."""
+        """Update image information based on selected dimensions."""
         if self.image_path:
             img = Image.open(self.image_path)
             original_width, original_height = img.size
 
-            # تعیین ابعاد بر اساس انتخاب کاربر
+            # Determine dimensions based on user selection
             if self.standard_combo.currentText() != self.translations["select_standard_dimension"]:
                 width, height = self.standard_dimensions[self.standard_combo.currentText()]
             else:
@@ -237,41 +237,34 @@ class ImageResizer(QWidget):
         elif selected_language == "فارسی":
             self.load_translations("persian.json")
 
-        self.update_ui_texts()
+    def load_translations(self, language_file="english.json"):
+        """Load translations from a JSON file."""
+        try:
+            with open(language_file, 'r', encoding='utf-8') as f:
+                self.translations = json.load(f)
+        except Exception as e:
+            print(f"Error loading translations: {e}")
+            self.translations = {
+                "title": "Image Resizer",
+                "select_image": "Select Image",
+                "file_size": "File Size",
+                "select_standard_dimension": "Select Standard Dimension",
+                "standard_dimension": "Standard Dimension:",
+                "width": "Width:",
+                "height": "Height:",
+                "suggested_dimension": "Suggested Dimension:",
+                "select_suggested_dimension": "Select Suggested Dimension",
+                "new_size": "New Size",
+                "size_reduction": "Size Reduction Percentage",
+                "size_jpg": "Estimated Size for JPG",
+                "size_png": "Estimated Size for PNG",
+                "resize": "Resize Image",
+                "success": "Success",
+                "image_resized": "Image resized successfully!"
+            }
 
-    def load_translations(self, file_name="english.json"):
-        with open(file_name, "r", encoding="utf-8") as f:
-            self.translations = json.load(f)
-
-    def update_ui_texts(self):
-     self.setWindowTitle(self.translations["title"])
-     self.file_size_label.setText(self.translations["file_size"])
-     self.select_button.setText(self.translations["select_image"])
-    
-    # به‌روزرسانی آیتم‌های QComboBox
-     self.standard_combo.setItemText(0, self.translations["select_standard_dimension"])
-     self.suggested_combo.setItemText(0, self.translations["select_suggested_dimension"])
-
-    # به‌روزرسانی سایر متون
-    # به‌جای استفاده از itemAt، اگر QLabel دارید به آن دسترسی پیدا کنید
-     width_label = self.scroll_area_layout.itemAt(1).widget()  # باید QLabel باشد
-     height_label = self.scroll_area_layout.itemAt(3).widget()  # باید QLabel باشد
-     suggested_label = self.scroll_area_layout.itemAt(5).widget()  # باید QLabel باشد
-    
-     if isinstance(width_label, QLabel):
-        width_label.setText(self.translations["width"])
-         
-     if isinstance(height_label, QLabel):
-         height_label.setText(self.translations["height"])
-        
-     if isinstance(suggested_label, QLabel):
-        suggested_label.setText(self.translations["suggested_dimension"])
-    
-     self.resize_button.setText(self.translations["resize"])
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    resizer = ImageResizer()
-    resizer.show()
+    window = ImageResizer()
+    window.show()
     sys.exit(app.exec_())
