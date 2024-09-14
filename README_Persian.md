@@ -17,7 +17,7 @@
 
 ## نصب
 1. کلون کردن مخزن:  
-   `git clone https://github.com/yourusername/Image-Resizer.git`  
+   `git clone https://github.com/mohammadzarghami/Image-Resizer.git`  
 2. وارد دایرکتوری پروژه شوید:  
    `cd Image-Resizer`  
 3. نصب بسته‌های مورد نیاز:  
