@@ -1,0 +1,21 @@
+{
+    "title": "Image Resizer",
+    "file_size": "Original File Size",
+    "select_image": "Select Image",
+    "select_standard_dimension": "Select Standard Dimension",
+    "standard_dimension": "Standard Dimensions",
+    "width": "Width (pixels)",
+    "height": "Height (pixels)",
+    "select_suggested_dimension": "Select Suggested Dimension",
+    "suggested_dimension": "Suggested Dimensions",
+    "resize": "Resize Image",
+    "new_file_size": "New File Size (Estimated)",
+    "size_reduction": "Size Reduction",
+    "jpg_size": "JPG Size (Estimated)",
+    "png_size": "PNG Size (Estimated)",
+    "error": "Error",
+    "enter_valid_dimensions": "Please enter valid dimensions.",
+    "save_image": "Save Image",
+    "success": "Success",
+    "image_saved": "Image saved successfully."
+}

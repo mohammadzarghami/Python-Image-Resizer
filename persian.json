@@ -1,0 +1,21 @@
+{
+    "title": "تبدیل ابعاد عکس",
+    "file_size": "حجم فایل اصلی",
+    "select_image": "انتخاب عکس",
+    "select_standard_dimension": "انتخاب ابعاد استاندارد",
+    "standard_dimension": "ابعاد استاندارد",
+    "width": "عرض (پیکسل)",
+    "height": "ارتفاع (پیکسل)",
+    "select_suggested_dimension": "انتخاب ابعاد پیشنهادی",
+    "suggested_dimension": "ابعاد پیشنهادی",
+    "resize": "تغییر ابعاد",
+    "new_file_size": "حجم جدید (تقریبی)",
+    "size_reduction": "کاهش حجم",
+    "jpg_size": "حجم در JPG (تقریبی)",
+    "png_size": "حجم در PNG (تقریبی)",
+    "error": "خطا",
+    "enter_valid_dimensions": "لطفا ابعاد صحیح وارد کنید.",
+    "save_image": "ذخیره عکس",
+    "success": "موفقیت",
+    "image_saved": "عکس با موفقیت ذخیره شد."
+}
